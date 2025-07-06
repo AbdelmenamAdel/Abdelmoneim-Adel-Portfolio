@@ -217,7 +217,11 @@ article {
     max-height: 115px; /* Slightly larger initial height on mobile */
     padding-bottom: 5px;
   }
-  
+   .volunteer-description {
+    font-size: 14px;
+    line-height: 1.2;
+    padding-bottom: 3px;
+  }
   .sidebar.active {
     max-height: 85vh; /* Use viewport height for better mobile experience */
     overflow-y: auto;
@@ -489,7 +493,11 @@ article.active {
   .skills-technologies .skills-list {
     gap: 10px;
   }
-  
+   .volunteer-description {
+    font-size: 14px;
+    line-height: 1.2;
+    padding-bottom: 3px;
+  }
   .skills-technologies .skills-item {
     font-size: 0.8rem;
     padding: 6px 12px;
@@ -610,7 +618,11 @@ main {
     max-height: 115px; /* Slightly larger initial height on mobile */
     padding-bottom: 5px;
   }
-  
+   .volunteer-description {
+    font-size: 14px;
+    line-height: 1.2;
+    padding-bottom: 3px;
+  }
   .sidebar.active {
     max-height: 85vh; /* Use viewport height for better mobile experience */
     overflow-y: auto;
@@ -699,7 +711,11 @@ main {
     padding: 6px 10px;
     font-size: 18px;
   }
-  
+   .volunteer-description {
+    font-size: 14px;
+    line-height: 1.2;
+    padding-bottom: 3px;
+  }
   .sidebar-info {
     padding-right: 10px; /* Give some space for the button */
   }
@@ -755,7 +771,11 @@ main {
     grid-template-columns: 1fr;
     gap: 20px;
   }
-  
+   .volunteer-description {
+    font-size: 14px;
+    line-height: 1.2;
+    padding-bottom: 3px;
+  }
   .contact-info {
     width: 100%;
     max-width: calc(100% - 50px);
@@ -1268,6 +1288,7 @@ main {
   background-color: var(--eerie-black-2);
   border-radius: 8px;
   padding: 14px;
+  padding-bottom: 3px;
   margin-bottom: 15px;
   /* border: 1px solid var(--jet); */
   transition: all 0.3s ease;
@@ -1295,12 +1316,14 @@ main {
 .volunteer-description {
   color: var(--light-gray);
   font-size: var(--fs-6);
-  line-height: 1.6;
+  line-height: 1.2;
   font-weight: var(--fw-300);
   background-color: #B8CCE0; /* Light Blue background */
   padding: 10px;
+  padding-bottom: 3px;
+  margin-bottom: 3px;
   border-radius: 5px;
-  margin: 0; /* Reset any margins that might cause indentation */
+  /* margin: 0; Reset any margins that might cause indentation */
 }
 
 .Volunteer-title{
@@ -1410,6 +1433,11 @@ main {
     margin: 30px 15px;
     padding: 15px;
   }
+  .volunteer-description {
+    font-size: 14px;
+    line-height: 1.2;
+    padding-bottom: 3px;
+  }
 }
 
 /* Experience styles */
@@ -1446,9 +1474,14 @@ main {
 @media (max-width: 768px) {
   .experience-item {
     padding-left: 15px;
-    padding-bottom: 0px;
+    padding-bottom: 3px;
+    line-height:1.2;
   }
-
+  .volunteer-description {
+    font-size: 14px;
+    line-height: 1.2;
+    padding-bottom: 8px;
+  }
   .item-marker {
     top: 5px;
     width: 8px;
@@ -1650,7 +1683,7 @@ main {
   border-radius: 5px;
   color: var(--light-gray);
   font-size: 14px;
-  line-height: 1.6;
+  line-height: 1.2;
   margin: 0; /* Reset any margins that might cause indentation */
 }
 
@@ -2714,7 +2747,11 @@ color: white; }
     margin: 0;
   }
 
-
+ .volunteer-description {
+    font-size: 14px;
+    line-height: 1.2;
+    padding-bottom: 3px;
+  }
 
   /**
    * SIDEBAR
@@ -2820,7 +2857,11 @@ color: white; }
   .info_more-btn:active {
     transform: scale(0.95);
   }
-
+ .volunteer-description {
+    font-size: 14px;
+    line-height: 1.2;
+    padding-bottom: 3px;
+  }
   /* Better avatar display on mobile */
   .avatar-box {
     width: 80px;
@@ -2942,9 +2983,14 @@ color: white; }
     left: -28px;
   }
 
-  .timeline-item:not(:last-child)::before {
+.timeline-item:not(:last-child)::before {
+    content: "";
+    position: absolute;
     left: -25px;
   }
+
+
+
 
   /* Skills section improvements */
   .skills-technologies .skills-item {
@@ -3021,6 +3067,11 @@ color: white; }
     object-fit: cover;
     border-radius: 50%;
   }
+   .volunteer-description {
+    font-size: 14px;
+    line-height: 1.2;
+    padding-bottom: 3px;
+  }
 }
 
 /* Card and Button Enhancements for Mobile */
@@ -3074,6 +3125,11 @@ color: white; }
     padding: 7px 12px;
     font-size: var(--fs-7);
   }
+   .volunteer-description {
+    font-size: 14px;
+    line-height: 1.2;
+    padding-bottom: 3px;
+  }
 }
 
 /* Touch-friendly animations */
@@ -3125,19 +3181,59 @@ color: white; }
   }
   
   p, .timeline-text, .project-description p, .volunteer-description {
-    line-height: 1.5;
+    line-height: 1.2;
     font-size: 13px;
+    padding-bottom:16px;
   }
   
   .timeline-item-title, .project-title, .service-item-title {
     line-height: 1.4;
   }
-  
+
+    .experience-item {
+  position: relative;
+  padding-left: 15px;
+  margin-top: 0px;
+  padding-bottom:0px;
+  margin-bottom: 3px;
+  color: var(--light-gray);
+  font-size: 14px;
+  line-height: 1.2;
+}
+.timeline .title-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left:-18px;
+  margin-bottom: 25px;
+  /* padding-left: -50px; */
+}
   /* Enhanced spacing for better readability */
   .timeline-item:not(:last-child) {
     margin-bottom: 15px;
   }
-  
+  .timeline-item:not(:last-child)::before {
+    content: "";
+    position: absolute;
+    top: -40px;
+    left: -30px;
+    width: 1px;
+    margin-left:-10px;
+    margin-top:16px;
+    height: calc(100% + 50px);
+    background: var(--jet);
+  }
+
+  .timeline-item::after {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: -43px;
+    height: 8px;
+    width: 8px;
+    left: -43px;
+  }
+
   .service-list, .blog-posts-list, .project-list {
     gap: 15px;
   }
