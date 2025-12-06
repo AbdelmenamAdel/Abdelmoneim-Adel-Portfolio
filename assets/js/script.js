@@ -336,3 +336,132 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     }
   });
 });
+
+
+/* -----------------------------
+   Lightweight client-side CV chatbot
+   - Searches visible page text for best matching sentences
+   - Intent: answer questions about the data already present in the portfolio
+   ----------------------------- */
+
+document.addEventListener('DOMContentLoaded', function () {
+  const toggleBtn = document.getElementById('chatbot-toggle');
+  const chatWindow = document.getElementById('chatbot-window');
+  const closeBtn = document.getElementById('chatbot-close');
+  const sendBtn = document.getElementById('chatbot-send');
+  const inputEl = document.getElementById('chatbot-input');
+  const messagesEl = document.getElementById('chatbot-messages');
+
+  if (!toggleBtn || !chatWindow || !sendBtn || !inputEl || !messagesEl) return;
+
+  let corpusSentences = [];
+
+  function buildCorpus() {
+    // Collect visible text from main content and sidebar
+    const main = document.querySelector('main');
+    let text = '';
+    if (main) text += main.innerText + '\n';
+    const sidebar = document.querySelector('.sidebar');
+    if (sidebar) text += sidebar.innerText + '\n';
+
+    // fallback: whole body
+    if (!text.trim()) text = document.body.innerText || '';
+
+    // split into sentences
+    corpusSentences = text
+      .replace(/\s+/g, ' ')
+      .split(/(?<=[\.\?\!])\s+/)
+      .map(s => s.trim())
+      .filter(Boolean);
+  }
+
+  function normalize(s) { return s.toLowerCase().replace(/[^a-z0-9\s]/g, ''); }
+
+  function findBestAnswers(question, limit = 3) {
+    const q = normalize(question);
+    const qWords = q.split(/\s+/).filter(Boolean).filter(w => w.length > 2);
+    if (!qWords.length) return [];
+
+    const scored = corpusSentences.map(sentence => {
+      const n = normalize(sentence);
+      let score = 0;
+      qWords.forEach(w => { if (n.includes(w)) score += 1; });
+      return { sentence, score };
+    });
+
+    const results = scored.filter(r => r.score > 0).sort((a,b) => b.score - a.score).slice(0, limit).map(r => r.sentence);
+    return results;
+  }
+
+  function appendMessage(text, who = 'bot') {
+    const el = document.createElement('div');
+    el.className = 'message ' + (who === 'user' ? 'user' : 'bot');
+    el.textContent = text;
+    messagesEl.appendChild(el);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  function botReply(question) {
+    const answers = findBestAnswers(question, 3);
+    if (answers.length) {
+      // join answers into a coherent short reply
+      return answers.join(' \n\n');
+    }
+    // fallback suggestions
+    return "Sorry, I couldn't find a direct answer in the portfolio. Try keywords like 'skills', 'experience', 'projects', 'education', or 'contact'.";
+  }
+
+  function sendQuestion() {
+    const q = inputEl.value.trim();
+    if (!q) return;
+    appendMessage(q, 'user');
+    inputEl.value = '';
+
+    // show typing indicator
+    const typing = document.createElement('div');
+    typing.className = 'message bot';
+    typing.textContent = 'Typing...';
+    messagesEl.appendChild(typing);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+
+    setTimeout(() => {
+      typing.remove();
+      const reply = botReply(q);
+      appendMessage(reply, 'bot');
+    }, 600 + Math.min(1200, q.length * 20));
+  }
+
+  // open/close behavior
+  function openChat() {
+    buildCorpus();
+    chatWindow.setAttribute('aria-hidden', 'false');
+    chatWindow.classList.add('active');
+    inputEl.focus();
+    // initial greeting
+    if (!messagesEl.children.length) {
+      appendMessage('Hi! I can answer questions about the information on this portfolio (education, skills, projects, experience). Ask me anything.');
+    }
+  }
+
+  function closeChat() {
+    chatWindow.setAttribute('aria-hidden', 'true');
+    chatWindow.classList.remove('active');
+    toggleBtn.focus();
+  }
+
+  toggleBtn.addEventListener('click', () => {
+    if (chatWindow.classList.contains('active')) closeChat(); else openChat();
+  });
+
+  closeBtn.addEventListener('click', closeChat);
+
+  sendBtn.addEventListener('click', sendQuestion);
+  inputEl.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') { e.preventDefault(); sendQuestion(); }
+  });
+
+  // rebuild corpus if DOM changes (basic)
+  const observer = new MutationObserver(() => buildCorpus());
+  observer.observe(document.body, { childList: true, subtree: true, characterData: true });
+
+});
